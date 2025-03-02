@@ -56,7 +56,7 @@ const Main = () => {
         <div>
           <button
             className={`w-[400px] h-[60px] items-center justify-center rounded-md text-white text-lg ${
-              fillAccount ? "bg-main-50" : "bg-gray-40"
+              fillAccount ? "bg-main-hard-40" : "bg-gray-40"
             }`}
           >
             로그인
