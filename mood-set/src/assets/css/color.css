@@ -1,33 +1,33 @@
 :root {
-    --black: #1E1E1E;
-    --gray-90: #333333;
-    --gray-80: #454545;
-    --gray-70: #555555;
-    --gray-60: #676767;
-    --gray-50: #767676;
-    --gray-40: #888888;
-    --gray-30: #999999;
-    --gray-20: #D0D0D0;
-    --gray-10: #f1f3f5;
-    --white: #fff;
+  --black: #1e1e1e;
+  --gray-90: #333333;
+  --gray-80: #454545;
+  --gray-70: #555555;
+  --gray-60: #676767;
+  --gray-50: #767676;
+  --gray-40: #888888;
+  --gray-30: #999999;
+  --gray-20: #d0d0d0;
+  --gray-10: #f1f3f5;
+  --white: #fff;
 
-    --main-50: #0FA3B1;
-    --main-40: #B5E2FA;
-    --main-30: #F9F7F3;
-    --main-20: #EDDEA4;
-    --main-10: #F7A072;
-    --main-hard-10: #FF8341;
-    --main-hard-20: #5F2D20;
-    --main-hard-40: #007BFF;
-    --main-hard-50: #00AEE4;
-    --main-red: #e50000;
+  --main-50: #0fa3b1;
+  --main-40: #b5e2fa;
+  --main-30: #f9f7f3;
+  --main-20: #eddea4;
+  --main-10: #f7a072;
+  --main-hard-10: #ff8341;
+  --main-hard-20: #5f2d20;
+  --main-hard-40: #007bff;
+  --main-hard-50: #00aee4;
+  --main-red: #e50000;
 }
 
 .button {
-    background-color: var(--main-10);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+  background-color: var(--main-10);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
 }
