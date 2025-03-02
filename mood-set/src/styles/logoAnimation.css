@@ -1,0 +1,17 @@
+@keyframes gradientWave {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-bg {
+  background: linear-gradient(-45deg, #e27878, #dbe278, #32a39b, #e27878);
+  background-size: 300% 300%;
+  animation: gradientWave 16s ease infinite;
+}
