@@ -1,6 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+// firebase: auth
+import { auth } from "../../firebase";
+import {
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
 // design
 import "../../styles/logoAnimation.css";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -12,11 +20,28 @@ const Main = () => {
   const [password, setPassword] = useState<string>("");
 
   const [fillAccount, setFillAccount] = useState<boolean>(false);
+  const [saveAccount, setSaveAccount] = useState<boolean>(false); // check box 관리
 
   useEffect(() => {
     if (id.trim() === "" || password.trim() === "") setFillAccount(false);
     else setFillAccount(true);
   }, [id, password]);
+
+  const handleLogin = async () => {
+    if (!fillAccount) return;
+    try {
+      const persistenceType = saveAccount
+        ? browserLocalPersistence
+        : browserSessionPersistence;
+      await setPersistence(auth, persistenceType);
+      await signInWithEmailAndPassword(auth, id, password);
+      navigate("/seccess"); // 임시 페이지
+    } catch (error) {
+      if (error instanceof Error) {
+        alert("로그인에 실패하였습니다.");
+      }
+    }
+  };
 
   return (
     <div>
@@ -51,10 +76,20 @@ const Main = () => {
                 onClick={() => setPassword("")}
               />
             </div>
+            <label className="flex items-center text-gray-10 select-none">
+              <input
+                className="w-[20px] h-[20px] mr-2 bg-main-hard-40 p-3 rounded-md select-none cursor-pointer"
+                type="checkbox"
+                checked={saveAccount}
+                onChange={() => setSaveAccount(!saveAccount)}
+              />
+              자동 로그인
+            </label>
           </div>
         </div>
         <div>
           <button
+            onClick={handleLogin}
             className={`w-[400px] h-[60px] items-center justify-center rounded-md text-white text-lg  ${
               fillAccount ? "bg-main-hard-40" : "bg-gray-40"
             }`}

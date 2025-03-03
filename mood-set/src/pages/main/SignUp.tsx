@@ -1,8 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+// firebase
+import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 // design
-import CancelIcon from "@mui/icons-material/Cancel";
+import CancelIcon from "@mui/icons-material/Cancel"; // 아이콘
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -12,19 +15,58 @@ const SignUp = () => {
   const [userId, setUserId] = useState<string>("");
   const [userPw, setUserPw] = useState<string>("");
 
-  const [fillAccount, setFillAccount] = useState<boolean>(false);
+  const [fillAccount, setFillAccount] = useState<boolean>(false); // input 태그 관리
 
+  // input 공백 감지
   useEffect(() => {
     if (userName.trim() === "" || userId.trim() === "" || userPw.trim() === "")
       setFillAccount(false);
     else setFillAccount(true);
   }, [userName, userId, userPw]);
 
+  // 페이지 접속 시 input 태그 초기화
   useEffect(() => {
     setUserName("");
     setUserId("");
     setUserPw("");
   }, [location.pathname]);
+
+  const handleSignUp = async () => {
+    try {
+      if (!fillAccount) return;
+
+      if (userPw.length < 6) {
+        alert("비밀번호는 최소 6자리 이상이어야 합니다.");
+        return;
+      }
+
+      // Firebase에 회원가입 요청
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        userId,
+        userPw
+      );
+      const user = userCredential.user;
+
+      // 닉네임 저장 (User Profile 업데이트)
+      await updateProfile(user, {
+        displayName: userName,
+      });
+
+      alert("회원가입이 완료되었습니다.");
+      navigate("/");
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message.includes("auth/email-already-in-use")) {
+          alert("이미 가입된 이메일입니다.");
+        } else {
+          alert("회원가입에 실패하였습니다. 다시 시도해 주세요.");
+        }
+      } else {
+        alert("알 수 없는 오류가 발생했습니다.");
+      }
+    }
+  };
 
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-gray-90 font-pretendard">
@@ -78,11 +120,12 @@ const SignUp = () => {
         </div>
         <div>
           <button
+            onClick={handleSignUp}
             className={`w-[400px] h-[60px] items-center justify-center rounded-md text-white text-lg  ${
               fillAccount ? "bg-main-hard-40" : "bg-gray-40"
             }`}
           >
-            로그인
+            회원 가입
           </button>
           <div className="flex justify-center items-center space-x-2 mt-6">
             <p className="text-white">이미 계정이 있나요?</p>
