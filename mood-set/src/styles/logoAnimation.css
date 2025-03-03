@@ -11,7 +11,13 @@
 }
 
 .gradient-bg {
-  background: linear-gradient(-45deg, #e27878, #dbe278, #32a39b, #e27878);
+  background: radial-gradient(
+    circle at 30% 30%,
+    #e27878,
+    #dbe278,
+    #32a39b,
+    #e27878
+  );
   background-size: 300% 300%;
   animation: gradientWave 16s ease infinite;
 }
