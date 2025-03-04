@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+// util
+import { validateEmail } from "../../utils/validateEmail ";
 // firebase
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -15,6 +17,7 @@ const SignUp = () => {
   const [userId, setUserId] = useState<string>("");
   const [userPw, setUserPw] = useState<string>("");
 
+  const [isValid, setIsValid] = useState<boolean | null>(null);
   const [fillAccount, setFillAccount] = useState<boolean>(false); // input 태그 관리
 
   // input 공백 감지
@@ -75,46 +78,66 @@ const SignUp = () => {
           회원 가입
         </p>
         <div className="mb-12">
-          <div className="flex flex-col space-y-4 ">
-            <div className="relative w-[400px] ">
-              <input
-                className="w-full h-[60px] p-4 pr-12 rounded-md focus:outline-none focus:ring-2 focus:ring-main-hard-40 transition"
-                placeholder="닉네임"
-                type="text"
-                autoComplete="additional-name"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-              <CancelIcon
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-30 cursor-pointer"
-                onClick={() => setUserName("")}
-              />
+          <div className="flex flex-col space-y-4">
+            <div>
+              <div className="relative w-[400px]">
+                <input
+                  className="w-full h-[60px] p-4 pr-12 rounded-md focus:outline-none focus:ring-2 focus:ring-main-hard-40 transition"
+                  placeholder="닉네임"
+                  type="text"
+                  autoComplete="additional-name"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+                <CancelIcon
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-30 cursor-pointer"
+                  onClick={() => setUserName("")}
+                />
+              </div>
             </div>
-            <div className="relative w-[400px] ">
-              <input
-                className="w-full h-[60px] p-4 pr-12 rounded-md focus:outline-none focus:ring-2 focus:ring-main-hard-40 transition"
-                placeholder="이메일"
-                type="email"
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
-              />
-              <CancelIcon
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-30 cursor-pointer"
-                onClick={() => setUserId("")}
-              />
+            <div>
+              <div className="relative w-[400px] ">
+                <input
+                  className="w-full h-[60px] p-4 pr-12 rounded-md focus:outline-none focus:ring-2 focus:ring-main-hard-40 transition"
+                  placeholder="이메일"
+                  type="email"
+                  value={userId}
+                  onChange={(e) => {
+                    setUserId(e.target.value);
+                    setIsValid(validateEmail(e.target.value));
+                  }}
+                />
+                <CancelIcon
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-30 cursor-pointer"
+                  onClick={() => setUserId("")}
+                />
+              </div>
+              {userId !== "" && isValid !== null && !isValid && (
+                <p className="text-main-red mt-1">
+                  이메일 형식이 올바르지 않습니다.
+                </p>
+              )}
             </div>
-            <div className="relative w-[400px] ">
-              <input
-                className="w-full h-[60px] p-4 pr-12 rounded-md focus:outline-none focus:ring-2 focus:ring-main-hard-40 transition"
-                placeholder="비밀번호"
-                type="password"
-                value={userPw}
-                onChange={(e) => setUserPw(e.target.value)}
-              />
-              <CancelIcon
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-30 cursor-pointer"
-                onClick={() => setUserPw("")}
-              />
+
+            <div>
+              <div className="relative w-[400px] ">
+                <input
+                  className="w-full h-[60px] p-4 pr-12 rounded-md focus:outline-none focus:ring-2 focus:ring-main-hard-40 transition"
+                  placeholder="비밀번호"
+                  type="password"
+                  value={userPw}
+                  onChange={(e) => setUserPw(e.target.value)}
+                />
+                <CancelIcon
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-30 cursor-pointer"
+                  onClick={() => setUserPw("")}
+                />
+              </div>
+              {userPw !== "" && userPw.length < 6 && (
+                <p className="text-main-red mt-1">
+                  비밀번호는 최소 6자 이상 작성해야 합니다.
+                </p>
+              )}
             </div>
           </div>
         </div>
