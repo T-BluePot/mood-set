@@ -46,6 +46,7 @@ Spotify API를 활용하여 실시간으로 감정에 맞는 플레이리스트�
 | 기술 | 설명 |
 |------|------|
 | **React + TypeScript** | 빠르고 안전한 UI 개발 |
-| **Spotify Web API** | 실시간 음악 데이터 제공 |
-| **Firebase Authentication** | Google 로그인 지원 |
+| **Google API** | 사용자 감정 분석 및 음악 추천 |
+| **Spotify Web API** | 음악 재생 |
+| **Firebase Authentication** | 사용자 계정 관리 |
 | **React Query** | API 데이터 최적화 및 캐싱 |
